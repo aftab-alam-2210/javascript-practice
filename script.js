@@ -1,46 +1,30 @@
-if(false){
-document.getElementById("startBtn").addEventListener("click", function () {
 
-    let count = 0;
-    const fill = document.querySelector(".fill");
-    const percentText = document.getElementById("percentText");
+function createToaster(config) {
+    return function (str) {
+let div = document.createElement("div")
+div.textContent = str;
+div.className = "inline-block bg-gray-800 text-white px-6 py-3 rounded shadow-lg pointer-events-none transition-opacity duration-300";
+document.querySelector(".parent").appendChild(div);
 
-    const interval = setInterval(function () {
-        if (count < 100) {
-            count++;
-            fill.style.width = count + "%";
-            percentText.textContent = count + "%";
-        } else {
-            clearInterval(interval);
-        }
-    }, 30);
-
-});
-
-// set dark or light theme with local storage (to save recent theme color)
-function setDarkOrLightTheme(){
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark") {
-        document.body.classList.add(localStorage.getItem("theme"));
-    } else {
-        setdarkOrlightTheme();
-    }
-    window
-    .matchMedia("(prefers-color-scheme: dark}")
-    .addEventListener("change", function(){
-       if (!localstorage.getItem("theme")){
-        setDarkOrLightTheme();
-       }
-       });
-       document.querySelector("button").addEventListener("click",() =>{
-       const currentTheme = document.body.classList.contains("dark") ? "dark" : "light";
-       const newtheme = currentTheme === "dark" ? "light" : "dark";
-       applyTheme(newtheme);
-         localstorage.setItem("theme", newrheme);
-       });
-
-    
-
-
+if (config.positionX !== "left" || config.positionY !== "bottom") {
+    document.querySelector(".parent").className +=
+` ${config.positionX === "left" ? "left-5" : "right-5"} ${
+  config.positionY === "top" ? "top-5" : "bottom-5"
+}`;
+}
+setTimeout(() => {
+        document.querySelector(".parent").removeChild(div);
+    }, config.duration * 1000);
+    };
 
 }
+let toaster =createToaster({
+    positionX: "right",
+    positionY: "top",
+    theme: "dark",
+    duration: 3,
+});
+toaster("Download Done!");
+setTimeout(() => {
+    toaster("your request has been accepted");
+}, 3000);
